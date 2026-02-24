@@ -1,8 +1,9 @@
-FROM python:3.11-slim
+FROM python:3.11-slim-bookworm
 
-# Install system dependencies for Playwright and greenlet
+# Install system dependencies for Playwright/Chromium and greenlet build
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    # Chromium runtime libs
     libglib2.0-0 \
     libnss3 \
     libnspr4 \
@@ -22,6 +23,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcairo2 \
     libasound2 \
     libx11-xcb1 \
+    libxcb1 \
+    libx11-6 \
+    libxext6 \
+    # Fonts (replacements for ttf-unifont / ttf-ubuntu-font-family)
+    fonts-liberation \
+    fonts-noto-color-emoji \
+    fonts-unifont \
+    # Misc
+    wget \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -30,9 +41,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright Chromium browser
+# Install Playwright Chromium browser (skip install-deps, we handle it above)
 RUN playwright install chromium
-RUN playwright install-deps chromium
 
 # Copy application code
 COPY . .
