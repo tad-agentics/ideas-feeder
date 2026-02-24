@@ -1,0 +1,12 @@
+requests==2.31.0
+beautifulsoup4==4.12.3
+feedparser==6.0.11
+youtube-transcript-api==0.6.2
+google-api-python-client==2.131.0
+anthropic==0.25.1
+pyairtable==2.3.3
+python-dotenv==1.0.1
+schedule==1.2.2
+playwright==1.44.0
+praw==7.7.1
+lxml==5.2.2
